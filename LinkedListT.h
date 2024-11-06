@@ -1,4 +1,4 @@
-#include "NodeT.h"
+#include "NodeVT.h"
 #include <iostream>
 
 using namespace std;
@@ -7,9 +7,9 @@ template <class T>
 class LinkedListT{
     private:
         int size;
-        NodeT<T> *head;
+        NodeVT<T> *head;
     public:
-        LinkedListT(){
+        LinkedListT<T>(){
             size = 0;
             head = nullptr;
         }
@@ -25,8 +25,52 @@ class LinkedListT{
         void updateData(T data, T newData);
         void updateAt(int index, T newData);
         bool insertAt(int index, T data);
+        void insertAdj(T fromV, T toV);
+        void printGraph();
+        void printBFS();
         void clear();
 };
+template <class T>
+void LinkedListT<T>::printGraph(){
+    if (size>0){
+        NodeVT<T> *aux = head;
+        NodeT<T> *auxA = aux->adj;
+        for (int i=0; i<size; i++){
+            cout<<aux->dato << " ";
+            auxA= aux->adj;
+            while(auxA!=nullptr){
+                cout<<auxA->dato <<" ";
+                auxA = auxA->next;
+            }
+            aux = aux->next;
+            cout<<endl;
+        }
+    }else{
+        cout<<"lista vacia\n";
+    }
+}
+template <class T>
+void LinkedListT<T>::insertAdj(T fromV, T toV){
+    NodeVT<T> *aux = head;
+    int pos = 0;
+    while(aux -> dato!= fromV && pos< size){
+        aux = aux->next;
+        pos++;
+    }
+    if (aux->dato == fromV){ //aqui voy a ligar lista adjaciencia
+        NodeT<T> *newAdj = new NodeT<T>(toV);
+        NodeT<T> *aux2;
+        if(aux->adj == nullptr){
+            aux->adj = newAdj;
+        }else{
+            aux2 = aux->adj;
+            while( aux2->next = nullptr){
+                aux2 = aux2->next;
+            }
+            aux2->next = newAdj;
+        }
+    }
+}
 template <class T>
 void LinkedListT<T>::clear(){
     if (size>0){
@@ -173,18 +217,18 @@ T LinkedListT<T>::getData(int index){
 }
 template <class T>
 void LinkedListT<T>::addFirst(T dato){
-    NodeT<T> *aux = new NodeT<T>(dato);
+    NodeVT<T> *aux = new NodeVT<T>(dato);
     aux->next = head;
     head = aux;
     size++;
 }
 template <class T>
 void LinkedListT<T>::addLast(T dato){
-    NodeT<T> *aux = head;
+    NodeVT<T> *aux = head;
     for(int i= 0; i<size-1; i++){
         aux = aux -> next;
     }
-    aux->next = new NodeT<T>(dato);
+    aux->next = new NodeVT<T>(dato);
     size++;
 }
 template <class T>

@@ -1,13 +1,11 @@
 template <class T> class LinkedListT;
 template <class T> class Queue;
-template <class T> class PriorityQueue;
 template <class T> class Stack;
 template <class T>
 
 class NodeT{
     friend class LinkedListT<T>;
     friend class Queue<T>;
-    friend class PriorityQueue<T>;
     friend class Stack<T>;
     private:
         T dato;
